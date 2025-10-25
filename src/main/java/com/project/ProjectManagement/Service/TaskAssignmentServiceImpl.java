@@ -34,6 +34,12 @@ public class TaskAssignmentServiceImpl implements TaskAssignmentService {
 
     @Override
     public TaskAssignmentDTO assignEmployee(TaskAssignmentDTO dto) {
+        if (dto.getEmployeeId() == null) {
+            throw new IllegalArgumentException("Employee ID must not be null");
+        }
+        if (dto.getTaskId() == null) {
+            throw new IllegalArgumentException("Task ID must not be null");
+        }
         TaskAssignment assignment = new TaskAssignment();
 
         assignment.setEmployee(employeeRepository.findById(dto.getEmployeeId())

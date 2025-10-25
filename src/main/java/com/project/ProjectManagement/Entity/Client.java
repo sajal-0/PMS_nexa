@@ -20,29 +20,29 @@ import jakarta.validation.constraints.NotBlank;
 
 
 @Entity
-@Table(name = "clients")
-public class Client {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotBlank(message = "Client name is required")
-    private String name;
-
-    private String company;
-
-    @Email(message = "Invalid email format")
-    @Column(unique = true)
-    private String email;
-
-    private String address;
-
-    @Enumerated(EnumType.STRING)
-    private Status status = Status.ACTIVE;
-
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Project> projects;
+	@Table(name = "clients")
+	public class Client {
+	
+	    @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	    private Long id;
+	
+	    @NotBlank(message = "Client name is required")
+	    private String name;
+	
+	    private String company;
+	
+	    @Email(message = "Invalid email format")
+	    @Column(unique = true)
+	    private String email;
+	
+	    private String address;
+	
+	    @Enumerated(EnumType.STRING)
+	    private Status status = Status.ACTIVE;
+	
+	    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+	    private List<Project> projects;
 
     
 	public Client() {

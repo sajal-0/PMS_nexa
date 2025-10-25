@@ -26,6 +26,7 @@ public class TaskAssignmentController {
 
     @PostMapping
     public ResponseEntity<TaskAssignmentDTO> assignEmployee(@RequestBody TaskAssignmentDTO dto) {
+    	System.out.println("Incoming TaskAssignmentDTO: " + dto);
         return ResponseEntity.ok(taskAssignmentService.assignEmployee(dto));
     }
 
