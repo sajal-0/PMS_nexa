@@ -22,4 +22,10 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
 
     // ✅ Find tasks by approval status
     List<Task> findByApprovalStatus(ApprovalStatus approvalStatus);
+    
+    // ✅ Count total tasks under a project
+    long countByProjectId(Long projectId);
+
+    // ✅ Count completed tasks under a project
+    long countByProjectIdAndProjectStatus(Long projectId, ProjectStatus projectStatus);
 }

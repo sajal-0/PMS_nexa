@@ -10,7 +10,7 @@ public class ProjectManagementApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProjectManagementApplication.class, args);
-		System.err.println("app started....  !");
+		System.err.println("app started....  !"); 
 	}
 
 }
