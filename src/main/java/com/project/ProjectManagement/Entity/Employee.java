@@ -1,10 +1,7 @@
 package com.project.ProjectManagement.Entity;
 
 import java.time.LocalDate;
-
 import java.util.List;
-
-
 
 import com.project.ProjectManagement.Enums.Status;
 
@@ -13,9 +10,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -38,7 +38,11 @@ public class Employee {
     private String email;
 
     private String department;
-    private String role;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id")
+    private Role role;
+
     private String skills;
     private LocalDate dateOfJoining;
 
@@ -53,7 +57,7 @@ public class Employee {
 	}
 
 	public Employee(Long id, @NotBlank(message = "Employee name is required") String name,
-			@Email(message = "Invalid email") String email, String department, String role, String skills,
+			@Email(message = "Invalid email") String email, String department, Role role, String skills,
 			LocalDate dateOfJoining, Status status, List<Assignment> assignments) {
 		super();
 		this.id = id;
@@ -99,11 +103,11 @@ public class Employee {
 		this.department = department;
 	}
 
-	public String getRole() {
+	public Role getRole() {
 		return role;
 	}
 
-	public void setRole(String role) {
+	public void setRole(Role role) {
 		this.role = role;
 	}
 

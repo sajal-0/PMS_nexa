@@ -1,4 +1,5 @@
 package com.project.ProjectManagement.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -7,9 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.project.ProjectManagement.DTOs.EmployeeDTO;
 import com.project.ProjectManagement.Entity.Employee;
+import com.project.ProjectManagement.Entity.Role;
 import com.project.ProjectManagement.Enums.Status;
 import com.project.ProjectManagement.Repository.EmployeeRepository;
-
+import com.project.ProjectManagement.Repository.RoleRepository;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
@@ -17,16 +19,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepo;
 
+    @Autowired
+    private RoleRepository roleRepository;
+
+    // ---------------- Mappers ---------------- //
+
     private EmployeeDTO toDTO(Employee e) {
         EmployeeDTO dto = new EmployeeDTO();
         dto.setId(e.getId());
         dto.setName(e.getName());
         dto.setEmail(e.getEmail());
         dto.setDepartment(e.getDepartment());
-        dto.setRole(e.getRole());
         dto.setSkills(e.getSkills());
         dto.setDateOfJoining(e.getDateOfJoining());
-        dto.setStatus(e.getStatus().name());
+        dto.setStatus(e.getStatus() != null ? e.getStatus().name() : null);
+
+        if (e.getRole() != null) {
+            dto.setRoleId(e.getRole().getId());
+            dto.setName(e.getRole().getName());
+        }
+
         return dto;
     }
 
@@ -36,14 +48,23 @@ public class EmployeeServiceImpl implements EmployeeService {
         e.setName(dto.getName());
         e.setEmail(dto.getEmail());
         e.setDepartment(dto.getDepartment());
-        e.setRole(dto.getRole());
         e.setSkills(dto.getSkills());
         e.setDateOfJoining(dto.getDateOfJoining());
+
         if (dto.getStatus() != null) {
             e.setStatus(Status.valueOf(dto.getStatus().toUpperCase()));
         }
+
+        if (dto.getRoleId() != null) {
+            Role role = roleRepository.findById(dto.getRoleId())
+                    .orElseThrow(() -> new RuntimeException("Role not found with id: " + dto.getRoleId()));
+            e.setRole(role);
+        }
+
         return e;
     }
+
+    // ---------------- CRUD Operations ---------------- //
 
     @Override
     public EmployeeDTO addEmployee(EmployeeDTO dto) {
@@ -59,12 +80,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         existing.setName(dto.getName());
         existing.setEmail(dto.getEmail());
         existing.setDepartment(dto.getDepartment());
-        existing.setRole(dto.getRole());
         existing.setSkills(dto.getSkills());
         existing.setDateOfJoining(dto.getDateOfJoining());
 
         if (dto.getStatus() != null) {
             existing.setStatus(Status.valueOf(dto.getStatus().toUpperCase()));
+        }
+
+        if (dto.getRoleId() != null) {
+            Role role = roleRepository.findById(dto.getRoleId())
+                    .orElseThrow(() -> new RuntimeException("Role not found with id: " + dto.getRoleId()));
+            existing.setRole(role);
         }
 
         return toDTO(employeeRepo.save(existing));

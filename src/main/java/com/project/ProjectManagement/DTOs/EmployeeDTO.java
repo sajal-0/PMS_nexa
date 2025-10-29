@@ -7,7 +7,7 @@ public class EmployeeDTO {
     private String name;
     private String email;
     private String department;
-    private String role;
+    private Long roleId; 
     private String skills;
     private LocalDate dateOfJoining;
     private String status;
@@ -16,18 +16,20 @@ public class EmployeeDTO {
     public EmployeeDTO() {
 		super();
 	}
-	public EmployeeDTO(Long id, String name, String email, String department, String role, String skills,
+	
+	public EmployeeDTO(Long id, String name, String email, String department, Long roleId, String skills,
 			LocalDate dateOfJoining, String status) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.email = email;
 		this.department = department;
-		this.role = role;
+		this.roleId = roleId;
 		this.skills = skills;
 		this.dateOfJoining = dateOfJoining;
 		this.status = status;
 	}
+
 	public Long getId() {
 		return id;
 	}
@@ -52,12 +54,15 @@ public class EmployeeDTO {
 	public void setDepartment(String department) {
 		this.department = department;
 	}
-	public String getRole() {
-		return role;
+	
+	public Long getRoleId() {
+		return roleId;
 	}
-	public void setRole(String role) {
-		this.role = role;
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
+
 	public String getSkills() {
 		return skills;
 	}
